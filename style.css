@@ -27,6 +27,8 @@ header{
     padding-bottom: 54px;
 }
 
+
+
 header img{
     height: 48px;
 }
@@ -38,14 +40,21 @@ header input{
     outline: none;
     border-radius: 4px;
 }
-header button{
+
+.button{
+    display: none;
     height: 48px;
+    min-width: 100px;
     background-color: red;
     color: white;
     padding: 0 8px;
     border-radius: 4px;
     border: none;
     cursor: pointer;
+}
+
+.button.show{
+
 }
 
 .cardContato{
@@ -76,6 +85,79 @@ main{
 }
 
 .container{
-    display: flex;
+    display: none;
+    flex-wrap: wrap;
     gap: 18px;
+}
+
+main.card-show .container{
+    display: flex;
+}
+
+form{
+    display: flex;
+    width: 80%;
+    margin: auto;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding: 32px;
+}
+
+main.form-show form{
+    display: flex;
+}
+
+.preview{
+    width: 300px;
+    height: 300px;
+    border: 4px solid rgb(255, 0, 0);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.preview-input{
+    display: none;
+}
+
+.preview-label{
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.preview-image{
+    height: 100%;
+    width: 100%;
+}
+
+.input-container{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input{
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container{
+    width: 100%;
+    background-color: tomato;
+    display: flex;
+    
+}
+
+.input-text{
+    height: 32px;
+    border: 1px solid red;
+    border-radius: 2px;
+    outline: none;
+    padding-left: 16px;
+}
+
+.input-text:focus{
+    outline: black;
 }
