@@ -33,7 +33,7 @@ header img{
 header input{
     height: 48px;
     flex-grow: 1;
-    border-color: rgb(255, 0, 0);
+    border: 2px solid red;
     border-radius: 6px;
     outline: none;
     padding: 0 12px;

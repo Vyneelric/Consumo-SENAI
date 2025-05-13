@@ -1,6 +1,6 @@
 'use strict'
 
-import { getContatos, getContatosPorNome, postContatos } from "./contatos.js"
+import { getContatos, getContatosPorNome, postContatos, uploadImageToAzure, deleteContatos } from "./contatos.js"
 
 
 function criarCard(contato){
@@ -41,23 +41,39 @@ function voltarHome(){
     document.querySelector('main').className = 'card-show'
 }
 
-async function salvarCriacaoContato(){
+async function salvarCriacaoContato() {
+    const fileInput = document.getElementById('foto');
+    const file = fileInput.files[0];
+  
+    let fotoUrl = '';
+    if (file) {
+      const uploadParams = {
+        file,
+        storageAccount: 'josestorage1',
+        sasToken: 'sp=racwl&st=2025-05-13T18:23:19Z&se=2025-05-14T02:23:19Z&sv=2024-11-04&sr=c&sig=f6ceeb9KSFCsurFh09IizOKyddaisCMvJDRPYhqQYBQ%3D',
+        containerName: 'fotos',
+      };
+      
+      fotoUrl = await uploadImageToAzure(uploadParams);
+    }
+  
     const contato = {
-        "nome": document.getElementById('nome').value,
-        "celular": document.getElementById('celular').value,
-        "foto": document.getElementById('foto').value,
-        "email": document.getElementById('email').value,
-        "endereco": document.getElementById('endereco').value,
-        "cidade": document.getElementById('cidade').value
+      "nome": document.getElementById('nome').value,
+      "celular": document.getElementById('celular').value,
+      "foto": fotoUrl, 
+      "email": document.getElementById('email').value,
+      "endereco": document.getElementById('endereco').value,
+      "cidade": document.getElementById('cidade').value
     }
+  
+    if (postContatos(contato)) {
+      alert('Contato cadastrado com sucesso');
+      await exibirContatos();
+      voltarHome();
+    }
+  }
+  
 
-    if(postContatos(contato) ){
-        alert('Contato cadastrado com sucesso')
-        await exibirContatos()
-        voltarHome()
-    }
-   
-}
 
 exibirContatos()
 document.getElementById('nome-contato').addEventListener('keydown',exibirPesquisa)

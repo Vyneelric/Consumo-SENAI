@@ -31,6 +31,35 @@ export async function postContatos(contato){
     return response.ok
 }
 
+export async function uploadImageToAzure(uploadParams) {
+
+    const { file, storageAccount, sasToken, containerName } = uploadParams;
+
+    const blobName = `${Date.now()}-${file.name}`;
+
+    const baseUrl = `https://${storageAccount}.blob.core.windows.net/${containerName}/${blobName}`;
+    const uploadUrl = `${baseUrl}?${sasToken}`;
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "x-ms-blob-type": "BlockBlob",
+        "Content-Type": file.type || "application/octet-stream",
+      },
+      body: file,
+    }
+
+    const response = await fetch(uploadUrl, options)
+
+    if (response.ok) {
+      return baseUrl;
+    }else {
+      return response.ok
+    }
+   
+}
+
+
 async function putContatos(contato, id) {
     const url = `https://bakcend-fecaf-render.onrender.com/contatos/${id}`
     const options = {
@@ -45,7 +74,7 @@ async function putContatos(contato, id) {
     return response.ok
 }
 
-async function deleteContatos(id) {
+export async function deleteContatos(id) {
     const url = `https://bakcend-fecaf-render.onrender.com/contatos/${id}`
     const options = {
         method: 'DELETE',
